@@ -72,12 +72,12 @@ func AddProduct(c *fiber.Ctx) error {
 
 	err := c.BodyParser(products)
 	if err != nil {
-		res := helper.BuildResponse(false, "Bad request", "Check your input")
+		res := helper.BuildErrorResponse("Bad request", "Check your input", err)
 		return c.Status(500).JSON(res)
 	}
 	err = db.Create(&products).Error
 	if err != nil {
-		res := helper.BuildResponse(false, "Bad request", "Could not create note")
+		res := helper.BuildErrorResponse("Bad request", "Could not create note", err)
 		return c.Status(500).JSON(res)
 	}
 	res := helper.BuildResponse(true, "OK", products)
